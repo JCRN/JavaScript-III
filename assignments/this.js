@@ -30,7 +30,7 @@ const salutations = {
     sayHello: sayHello
 }
 
-console.log(salutations.sayHello());
+console.log(salutations.sayHello()); // <--- Implicit Binding, 'this' bound to the 'salutations' object
 
 // Principle 3
 
