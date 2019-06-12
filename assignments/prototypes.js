@@ -39,27 +39,116 @@
   * Instances of CharacterStats should have all of the same properties as GameObject.
 */
 
+// GameObject Constructor ***
 function GameObject(attributes) {
-	this.name = attributes.name;
+  this.createdAt = attributes.createdAt;
+  this.name = attributes.name;
+  this.dimensions = attributes.dimensions;
 }
 
-GameObject.prototype.destroy = function() {}
+// GameObject Methods
+GameObject.prototype.destroy = function() {
+  return `${this.name} was removed from the game.`
+}
 
+// CharacterStats Constructor
 function CharacterStats(attributes) {
-	GameObject.call(this, attributes)
+  GameObject.call(this, attributes)
+  this.healthPoints = attributes.healthPoints;  
 }
 
+// CharacterStats Inheritance (inherits from GameObject)
 CharacterStats.prototype = Object.create(GameObject.prototype)
+
+// CharacterStats Methods
 CharacterStats.prototype.takeDamage = function() {
-	
+	return `${this.name} took damage.`
 }
 
+// Humanoid Constructor
 function Humanoid(attributes) {
-	CharacterStats.call(this, attributes)
+  CharacterStats.call(this, attributes)
+  this.team = attributes.team
+  this.weapons = attributes.weapons
+  this.language = attributes.language
 }
 
+// Humanoid Inheritance (inherits from CharacterStats)
 Humanoid.prototype = Object.create(CharacterStats.prototype)
-Humanoid.prototype.greet = function() {}
+
+// Humanoid Methods
+Humanoid.prototype.greet = function() {
+  return `${this.name} offers a greeting in ${this.language}.`
+}
+
+// Villain Constructor
+function Villain(attributes) {
+  Humanoid.call(this, attributes)
+}
+
+// Villain Inheritance
+Villain.prototype = Object.create(Humanoid.prototype) 
+
+// Villain Methods
+Villain.prototype.backStab = function(opponent) {
+  let death = opponent.destroy();
+  // let battleText = "";
+  // // hit or miss  
+  // let roll = Math.floor(Math.random() * Math.floor(10)); // 0 - 9
+  // let success = (roll > 5) ? true : false;
+  // if(success) {
+  //   opponent.healthPoints -= 1;
+  //   battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
+  // } else {
+  //     battleText = `${this.name} misses ${opponent.name}.`;
+  //   }
+  // return battleText;
+  return death;
+}
+//   let hit = Math.floor(Math.random() * Math.floor(10)); // 0 - 9
+//   let battleText = '';
+//   switch(hit) {
+//     case 1,2,3,4:
+//       battleText = `${this.name} 
+//       break;
+//     case 5,6,7,8:
+//       opponent.healthPoints -= 1;
+//       battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name} loses a health point. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
+//       break;
+//     case 9: 
+//       battleText = `Backstabbed! ${this.name} has killed ${opponent.name}`
+//       opponent.destroy();
+//       break;    
+//   }
+// }
+
+// Hero Constructor
+function Hero(attributes) {
+  Humanoid.call(this, attributes)
+}
+
+// Hero Inheritance
+Hero.prototype = Object.create(Humanoid.prototype)
+
+// Hero Methods
+// Hero.prototype.karateChop = function(opponent) {
+  
+//   let battleText = '';
+//   let hp = 0;
+
+
+//       battleText = `${this.name} completely misses ${opponent.name}.`
+  
+  
+//       opponent.healthPoints -= 1;
+//       battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name} loses a health point. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
+  
+  
+//       battleText = `Karate Chop straight to the throat! ${this.name} has killed ${opponent.name}`
+//       opponent.destroy();
+      
+//   }
+// }
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
@@ -113,6 +202,40 @@ Humanoid.prototype.greet = function() {}
     language: 'Elvish',
   });
 
+  const ninja = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 3,
+    },
+    healthPoints: 10,
+    name: 'Steve',
+    team: 'Pit of Despair',
+    weapons: [
+      'Butter Knife',
+      'Spork'
+    ],
+    language: 'Chaos',
+  });
+
+  const warrior = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Chuck',
+    team: 'Any team he wants',
+    weapons: [
+      'Fists',
+      'Feet'
+    ],
+    language: 'English',
+  });
+
   console.log(mage.createdAt); // Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
@@ -123,6 +246,13 @@ Humanoid.prototype.greet = function() {}
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+
+  console.log(ninja.backStab(warrior));
+  console.log(ninja.backStab(warrior));
+  console.log(ninja.backStab(warrior));
+  console.log(ninja.backStab(warrior));
+  console.log(ninja.backStab(warrior));
+  console.log(ninja.backStab(warrior));
 
 
   // Stretch task: 
