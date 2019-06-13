@@ -51,7 +51,7 @@ GameObject.prototype.destroy = function() {
   return `${this.name} was removed from the game.`
 }
 
-// CharacterStats Constructor
+// CharacterStats Constructor ***
 function CharacterStats(attributes) {
   GameObject.call(this, attributes)
   this.healthPoints = attributes.healthPoints;  
@@ -65,7 +65,7 @@ CharacterStats.prototype.takeDamage = function() {
 	return `${this.name} took damage.`
 }
 
-// Humanoid Constructor
+// Humanoid Constructor ***
 function Humanoid(attributes) {
   CharacterStats.call(this, attributes)
   this.team = attributes.team
@@ -81,7 +81,7 @@ Humanoid.prototype.greet = function() {
   return `${this.name} offers a greeting in ${this.language}.`
 }
 
-// Villain Constructor
+// Villain Constructor ***
 function Villain(attributes) {
   Humanoid.call(this, attributes)
 }
@@ -91,36 +91,8 @@ Villain.prototype = Object.create(Humanoid.prototype)
 
 // Villain Methods
 Villain.prototype.backStab = function(opponent) {
-  let death = opponent.destroy();
-  // let battleText = "";
-  // // hit or miss  
-  // let roll = Math.floor(Math.random() * Math.floor(10)); // 0 - 9
-  // let success = (roll > 5) ? true : false;
-  // if(success) {
-  //   opponent.healthPoints -= 1;
-  //   battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
-  // } else {
-  //     battleText = `${this.name} misses ${opponent.name}.`;
-  //   }
-  // return battleText;
-  return death;
+  return attack(opponent);
 }
-//   let hit = Math.floor(Math.random() * Math.floor(10)); // 0 - 9
-//   let battleText = '';
-//   switch(hit) {
-//     case 1,2,3,4:
-//       battleText = `${this.name} 
-//       break;
-//     case 5,6,7,8:
-//       opponent.healthPoints -= 1;
-//       battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name} loses a health point. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
-//       break;
-//     case 9: 
-//       battleText = `Backstabbed! ${this.name} has killed ${opponent.name}`
-//       opponent.destroy();
-//       break;    
-//   }
-// }
 
 // Hero Constructor
 function Hero(attributes) {
@@ -131,24 +103,49 @@ function Hero(attributes) {
 Hero.prototype = Object.create(Humanoid.prototype)
 
 // Hero Methods
-// Hero.prototype.karateChop = function(opponent) {
+Hero.prototype.sliceAndDice = function(opponent) {
+  return attack(opponent);
+}
+
+// Global attack Function
+function attack(opponent) {
+  let battleText = "";
+  let death = `${opponent.name} has been killed \n${opponent.destroy()}`;
   
-//   let battleText = '';
-//   let hp = 0;
+  // test for dead
+  if(opponent.healthPoints <= 0) {
+    return death;
+  }
+
+  // attack roll  
+  let roll = Math.floor(Math.random() * Math.floor(10)); // 0 - 9
+  console.log('roll: ', roll);
+  
+  switch(roll){
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4: 
+      battleText = `${opponent.name} dodges the attack`;
+      break;
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      battleText = `${opponent.name} has been hit.`;
+      opponent.healthPoints -= 1;
+      break;
+    case 9: 
+      battleText = `Critical hit!!! ${opponent.name} loses a limb`;
+      opponent.healthPoints -= 3;
+      break;     
+  }
+
+  return battleText;
+}
 
 
-//       battleText = `${this.name} completely misses ${opponent.name}.`
-  
-  
-//       opponent.healthPoints -= 1;
-//       battleText = `${this.name} hits ${opponent.name}. \n ${opponent.name} loses a health point. \n ${opponent.name}'s remaining health points: ${opponent.healthPoints}`;
-  
-  
-//       battleText = `Karate Chop straight to the throat! ${this.name} has killed ${opponent.name}`
-//       opponent.destroy();
-      
-//   }
-// }
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
@@ -210,7 +207,7 @@ Hero.prototype = Object.create(Humanoid.prototype)
       height: 3,
     },
     healthPoints: 10,
-    name: 'Steve',
+    name: 'The Wind',
     team: 'Pit of Despair',
     weapons: [
       'Butter Knife',
@@ -226,8 +223,8 @@ Hero.prototype = Object.create(Humanoid.prototype)
       width: 2,
       height: 4,
     },
-    healthPoints: 10,
-    name: 'Chuck',
+    healthPoints: 2,
+    name: 'War War War',
     team: 'Any team he wants',
     weapons: [
       'Fists',
@@ -247,16 +244,26 @@ Hero.prototype = Object.create(Humanoid.prototype)
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
-  console.log(ninja.backStab(warrior));
-  console.log(ninja.backStab(warrior));
-  console.log(ninja.backStab(warrior));
-  console.log(ninja.backStab(warrior));
-  console.log(ninja.backStab(warrior));
-  console.log(ninja.backStab(warrior));
-
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
+console.log('Round 1 - FIGHT!!');
+console.log(ninja.backStab(warrior));
+console.log('warrior hp:', warrior.healthPoints);
+console.log(warrior.sliceAndDice(ninja));
+console.log('ninja hp:', ninja.healthPoints);
+
+console.log('Round 2 - FIGHT!!');
+console.log(ninja.backStab(warrior));
+console.log('warrior hp:', warrior.healthPoints);
+console.log(warrior.sliceAndDice(ninja));
+console.log('ninja hp:', ninja.healthPoints);
+
+console.log('Round 3 - FIGHT!!');
+console.log(ninja.backStab(warrior));
+console.log('warrior hp:', warrior.healthPoints);
+console.log(warrior.sliceAndDice(ninja));
+console.log('ninja hp:', ninja.healthPoints);
