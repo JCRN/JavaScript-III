@@ -224,7 +224,7 @@ function attack(opponent) {
       height: 4,
     },
     healthPoints: 2,
-    name: 'War War War',
+    name: 'War Monger',
     team: 'Any team he wants',
     weapons: [
       'Fists',
@@ -267,3 +267,4 @@ console.log(ninja.backStab(warrior));
 console.log('warrior hp:', warrior.healthPoints);
 console.log(warrior.sliceAndDice(ninja));
 console.log('ninja hp:', ninja.healthPoints);
+
